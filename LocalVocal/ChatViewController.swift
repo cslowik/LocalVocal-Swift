@@ -9,10 +9,33 @@
 import UIKit
 
 class ChatViewController: UIViewController {
+    //MARK:- Properties
+    private var messages = [Message]()
+    private let cellIdentifier = "chatCell"
+    // Views
+    private let tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(tableView)
+        
+        // set up constraints for tableview
+        // create array of constraints and activate them
+        let tableViewConstraints: [NSLayoutConstraint] = [
+            tableView.topAnchor.constraintEqualToAnchor(view.topAnchor),
+            tableView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
+            tableView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
+            tableView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
+        ]
+        NSLayoutConstraint.activateConstraints(tableViewConstraints)
+        
+        // set up bogus data
+        for i in 0...10 {
+            let m = Message()
+            m.text = String(i)
+            messages.append(m)
+        }
     }
 
     override func didReceiveMemoryWarning() {
