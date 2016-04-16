@@ -36,6 +36,9 @@ class ChatViewController: UIViewController {
             m.text = String(i)
             messages.append(m)
         }
+        
+        // register class for tableview
+        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "chatCell")
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,6 +46,18 @@ class ChatViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+}
 
+extension ChatViewController: UITableViewDataSource {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
+        let message = messages[indexPath.row]
+        cell.textLabel?.text = message.text
+        return cell
+    }
 }
 
