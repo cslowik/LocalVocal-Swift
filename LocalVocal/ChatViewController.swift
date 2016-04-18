@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class ChatViewController: UIViewController {
     //MARK:- Properties
@@ -17,18 +18,12 @@ class ChatViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
-        // set up constraints for tableview
-        // create array of constraints and activate them
-        let tableViewConstraints: [NSLayoutConstraint] = [
-            tableView.topAnchor.constraintEqualToAnchor(view.topAnchor),
-            tableView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor),
-            tableView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor),
-            tableView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
-        ]
-        NSLayoutConstraint.activateConstraints(tableViewConstraints)
+        // SnapKit, yay!
+        tableView.snp_makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
         
         // set up bogus data
         for i in 0...10 {
