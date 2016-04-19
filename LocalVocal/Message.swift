@@ -11,4 +11,5 @@ import Foundation
 class Message {
     //MARK:- Properties
     var text: String?
+    var incoming = false
 }

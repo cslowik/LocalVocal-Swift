@@ -26,14 +26,19 @@ class ChatViewController: UIViewController {
         }
         
         // set up bogus data
+        var localIncoming = true
         for i in 0...10 {
             let m = Message()
-            m.text = String(i)
+            m.text = "this is a really long message. at some point it will be too long." + String(i)
+            m.incoming = localIncoming
+            localIncoming = !localIncoming
             messages.append(m)
         }
         
         // register class for tableview
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "chatCell")
+        tableView.registerClass(ChatCell.self, forCellReuseIdentifier: "chatCell")
+        tableView.dataSource = self
+        tableView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,10 +54,17 @@ extension ChatViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatCell
         let message = messages[indexPath.row]
-        cell.textLabel?.text = message.text
+        cell.messageLabel.text = message.text
+        cell.incoming(message.incoming)
         return cell
+    }
+}
+
+extension ChatViewController: UITableViewDelegate {
+    func tableView(tableView: UITableView, shouldHighlightRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return false
     }
 }
 
