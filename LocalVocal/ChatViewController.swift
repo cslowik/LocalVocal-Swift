@@ -35,10 +35,11 @@ class ChatViewController: UIViewController {
             messages.append(m)
         }
         
-        // register class for tableview
-        tableView.registerClass(ChatCell.self, forCellReuseIdentifier: "chatCell")
+        // register class for tableview and other setup
+        tableView.registerClass(ChatBubbleCell.self, forCellReuseIdentifier: "chatCell")
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,10 +55,11 @@ extension ChatViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! ChatBubbleCell
         let message = messages[indexPath.row]
         cell.messageLabel.text = message.text
         cell.incoming(message.incoming)
+        cell.separatorInset = UIEdgeInsetsMake(0, tableView.bounds.size.width, 0, 0)
         return cell
     }
 }
